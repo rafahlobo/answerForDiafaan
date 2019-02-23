@@ -1,12 +1,6 @@
-# answerForDiafaan
-Make http requests and send the answers to your diafaan. # Http integration
-
-
-Config.json file structure
-
 {
   "database" : {
-    "host" : "your_host",
+    "host" : "192.111.155.10",
     "user" : "diafaan",
     "passwd" : "501jN1IApyAYakix",
     "database" : "server_diafaan"
@@ -15,7 +9,7 @@ Config.json file structure
     "url": "http://208.115.208.17/?p=/api/resposta",
     "method" : "POST",
     "param" : {
-      "key" : "your_key"
+      "key" : "$2y$10$B6m2m9Ttk67gcvBmr.AHb.g2D7pb5b7c8vK0fPPnNuX4l5ISIXFSC"
     }
   },
   "payloadName" : "content",
