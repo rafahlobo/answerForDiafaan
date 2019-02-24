@@ -26,7 +26,7 @@ if response.status_code != 200:
     exit("Expected code 200.")
 
 # Check for success.
-if response.text.find(config['successString']) != -1:
+if response.text.find(config['successString']) == -1:
     exit("Success indicator string could not be found.")
 
 try:
@@ -44,7 +44,7 @@ if not isinstance(payload,list):
 diafaanDao = DiafaanDao(**config['database'])
 
 for msg in payload:
-
+    # Converts date supplied to format expected by diafaan.
     sendTime = datetime.datetime.strptime(msg[config['expectedResponseParameters']['sendTime']],config['expectedResponseParameters']['formatDate']).strftime("%Y-%m-%d %H:%M:%S")
     sms_from = msg[config['expectedResponseParameters']['from']]
     if len(config['expectedResponseParameters']['to']) > 0:
@@ -52,5 +52,16 @@ for msg in payload:
     else:
         sms_to = ""
     sms_text = msg[config['expectedResponseParameters']['text']]
-    diafaanDao.insert_answer(database_table=config['databaseTableTarget'],time=sendTime,sms_from=sms_from,sms_to=sms_to,sms_text=sms_text)
+
+    # Saves information in the diafaan database.
+    result = diafaanDao.insert_answer(database_table=config['databaseTableTarget'],\
+                             time=sendTime,\
+                             sms_from=sms_from,\
+                             sms_to=sms_to,\
+                             sms_text=sms_text)
+
+    if result:
+        print("Response inserted in the diafaan database.")
+    else:
+        print("Something went wrong.")
 
